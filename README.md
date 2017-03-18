@@ -152,7 +152,25 @@ The functions to build are located in the *modules* directory and the tests are 
 
 ## Bonus
 
-If you have time, build a *router* for your server to handle POST requests to **/submit**. Be sure to check out the second answer in this [stack overflow thread](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js) for help in dealing with POST requests on a Node server.
+If you have time, build a *router* for your server to handle POST requests to **/submit**. This example should help with dealing with post requests;
+```javascript
+const qs = require('querystring');
+
+const router = (request, response) => {
+    if (request.method == 'POST') {
+        let body = '';
+
+        request.on('data', (data) => {
+            body += data;
+        });
+        
+        request.on('end', () => {
+            const post = qs.parse(body);
+            // now deal with post
+        });
+    }
+}
+```
 Your router should call a handler which utilises the *validateName*, *validateAge*, *validateEmail*, *validateReason* to check the form contents, then write either a simple success or fail response to the user. You can test your router using the [shot](https://github.com/hapijs/shot) module, which is added as a dependency to this project. Good luck! :)
 
 
