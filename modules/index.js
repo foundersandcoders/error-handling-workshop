@@ -1,5 +1,11 @@
-const divide = require('./divide')
+const validateName = require('./validatename');
+const validateAge = require('./validateage');
+const validateEmail = require('./validateemail');
+const validateReason = require('./validatereason');
 
 module.exports = {
-  divide
+  validateName,
+  validateAge,
+  validateEmail,
+  validateReason
 }
