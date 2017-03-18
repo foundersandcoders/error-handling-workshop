@@ -190,3 +190,4 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 - [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
 - [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
 - [Shot Documentation](https://github.com/hapijs/shot) 
+- [Joyent- Error Handling](https://www.joyent.com/node-js/production/design/errors) 
