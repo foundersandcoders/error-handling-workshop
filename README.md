@@ -111,7 +111,7 @@ const willFail = (func, int) => {
   changeInt(func, int, (error, result) => {
     if (error) {
       console.log(error.message)
-      // do something if error
+      // logging the console here is optional, but it is important to act on it in this branch
     } else {
       // do something if result
     }
