@@ -1,5 +1,5 @@
 // @TODO: Build validateEmail
 // String (valid email address)
-const validateEmail = (email, cb) =>
+const validateEmail = () =>
 
 module.exports = validateEmail;

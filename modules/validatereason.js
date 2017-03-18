@@ -1,5 +1,5 @@
 // @TODO: Build validateReason
 // String (any non-empty string of any length)
-const validateReason = (reason, cb) =>
+const validateReason = () =>
 
 module.exports = validateReason;
