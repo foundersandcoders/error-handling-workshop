@@ -160,7 +160,7 @@ The functions to build are located in the *modules* directory and the tests are 
 
 ### (Bonus exercise if you have time)
 
-If you have time, build a *router* for your server to handle POST requests to **/submit**. This example should help with dealing with post requests;
+Build a *router* for your server to handle POST requests to **/submit**. This example should help with dealing with post requests;
 ```javascript
 const qs = require('querystring');
 
@@ -179,7 +179,7 @@ const router = (request, response) => {
     }
 }
 ```
-Your router should call a handler which utilises the *validateName*, *validateAge*, *validateEmail*, *validateReason* to check the form contents, then write either a simple success or fail response to the user. You can test your router using the [shot](https://github.com/hapijs/shot) module, which is added as a dependency to this project. Good luck! :)
+Your router should call a handler which utilises the *validateName*, *validateAge*, *validateEmail*, *validateReason* to check the form contents, then write either a simple success or fail response to the user. On a related note, check out [this](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/) great article on handling 404 errors. You can test your router using the [shot](https://github.com/hapijs/shot) module, which is added as a dependency to this project. Good luck! :)
 
 
 ### Resources
