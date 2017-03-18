@@ -158,7 +158,7 @@ and be sure to cover as many cases as possible in your tests.
 
 The functions to build are located in the *modules* directory and the tests are located in *tests.js*.
 
-## Bonus
+### (Bonus exercise if you have time)
 
 If you have time, build a *router* for your server to handle POST requests to **/submit**. This example should help with dealing with post requests;
 ```javascript
