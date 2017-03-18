@@ -133,10 +133,10 @@ as the *first* argument to the callback, otherwise *null* is passed and the resu
 You need to validate the form contents before providing an appropriate response to the user, so you'll need write several functions inside of the handler dealing with requests to **/submit**, and write tests for these functions.
 
 ## Form Requirements
-- *name*: String (characters allowed: letter, dash, apostrophe. Must contain at least two letters)
-- *age*: Integer (must be greater than 16 but less than 80)
-- *email*: String (valid email address, for help check out [this](http://stackoverflow.com/questions/46155/validate-email-address-in-javascript) stack overflow answer)
-- *reason*: String (any non-empty string of any length)
+- **name**: String (characters allowed: letter, dash, apostrophe. Must contain at least two letters)
+- **age**: Integer (must be greater than 16 but less than 80)
+- **email**: String (valid email address, for help check out [this](http://stackoverflow.com/questions/46155/validate-email-address-in-javascript) stack overflow answer)
+- **reason**: String (any non-empty string of any length)
 
 ## Functions Required
 - validateName
