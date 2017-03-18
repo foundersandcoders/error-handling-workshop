@@ -125,6 +125,14 @@ as the *first* argument to the callback, otherwise *null* is passed and the resu
 
 *willFail* calls *changeInt* as before, passing its own callback function which checks if an error is provided as the first argument, and if it is then the error message is logged and a corresponding branch of code is executed, otherwise another branch of code is executed.
 
+It is worth noting that use of the Error constructor for error first callbacks is optional...
+```javascript
+const changeInt = (func, int, cb) => {
+  if (!func || !int) {
+    cb('insufficient arguments provided'))
+  } 
+```
+This example shows a simple string passed as the first argument to the callback function. One advantage to this approach is the error message is immediately available for use if you choose to log it and continue (no need for **error.message**), but you'll be running the risk of the string error finding its way into the model of your application if you forget to handle it.
 
 # Exercise
 
