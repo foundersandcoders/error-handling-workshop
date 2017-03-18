@@ -41,7 +41,7 @@ nextOperation(result)
 ```
 Here our **addTen** function has unknowingly worked with two different data types, and our lovely JavaScript engine has coerced them into strings and concatenated them together to produce **[object Object]10**, which is not helpful.
 
-If **arrayOfNumbersIThnk** was retrieved from an API call, we can't always be certain the values will be what we expect. How can we deal with these unknown situations?
+If **arrayOfNumbersIThink** was retrieved from an API call, we can't always be certain the values will be what we expect. How can we deal with these unknown situations?
 
 ### 1. Error Throwing
 
