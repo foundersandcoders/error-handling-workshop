@@ -1,0 +1,11 @@
+{
+  "name": "error-handling-workshop",
+  "version": "1.0.0",
+  "description": "A workshop to help deal with the perils of errors in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
