@@ -156,10 +156,10 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 
 
 ### Resources
-[Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
-[The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
-[404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
-[MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
-[MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
-[Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
-[Shot Documentation](https://github.com/hapijs/shot) 
+- [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
+- [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
+- [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
+- [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+- [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+- [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
+- [Shot Documentation](https://github.com/hapijs/shot) 
