@@ -51,11 +51,12 @@ During runtime, errors can be thrown in our application unexpectedly by computat
 // 1. Application tries to import files before it starts up.
 // 2. Application calls this function to assert they exist
 // then prepare them in some way, and return the prepared result.
-const prepareFiles = (files, prepareFunc, cb) => {
+const prepareFiles = (files, prepareFunc) => {
   if (!files) {
     throw new Error('No files provided')
+  } else {
+    prepareFunc(files));
   }
-  cb(null, prepareFunc(files));
 }
 ```
 Sometimes its best to stop our application from running before crazy things happen. Without functions like this, tracing bugs can be time consuming down the line.
