@@ -147,6 +147,8 @@ You need to validate the form contents before providing an appropriate response 
 Working in pairs, clone this repo to get started with the basic file structure and dependencies. You should utilise the **Returning errors** and/or **Error first callback** methods described above,
 and be sure to cover as many cases as possible in your tests.
 
+The functions to build are located in the *modules* directory and the tests are located in *tests.js*.
+
 ## Bonus
 
 If you have time, build a *router* for your server to handle POST requests to **/submit**. Be sure to check out the second answer in this [stack overflow thread](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js) for help in dealing with POST requests on a Node server.
