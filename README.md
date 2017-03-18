@@ -129,8 +129,8 @@ as the *first* argument to the callback, otherwise *null* is passed and the resu
 
 ![Astronaut Kitten](./docs/astronaut-kitten.png)
 
-**Problem:** As part of an application that serves users wishing to apply to be an astronaut, you're running a server which accepts POST requests of a forms content to the path '/submit'.
-You need to validate the form contents before providing an appropriate response to the user, so you'll need write several functions inside of the handler dealing with requests to '/submit', and write tests for these functions.
+**Problem:** As part of an application that serves users wishing to apply to be an astronaut, you're running a server which accepts POST requests of a forms content to the path **/submit**.
+You need to validate the form contents before providing an appropriate response to the user, so you'll need write several functions inside of the handler dealing with requests to **/submit**, and write tests for these functions.
 
 ## Form Requirements
 - *name*: String (characters allowed: letter, dash, apostrophe. Must contain at least two letters)
@@ -149,7 +149,7 @@ and be sure to cover as many cases as possible in your tests.
 
 ## Bonus
 
-If you have time, build a *router* for your server to handle POST requests to '/submit'. Be sure to check out the second answer in this [stack overflow thread](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js) for help in dealing with POST requests on a Node server.
+If you have time, build a *router* for your server to handle POST requests to **/submit**. Be sure to check out the second answer in this [stack overflow thread](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js) for help in dealing with POST requests on a Node server.
 Your router should call a handler which utilises the *validateName*, *validateAge*, *validateEmail*, *validateReason* to check the form contents, then write either a simple success or fail response to the user. You can test your router using the [shot](https://github.com/hapijs/shot) module, which is added as a dependency to this project. Good luck! :)
 
 
