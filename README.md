@@ -2,6 +2,7 @@
 
 ![Undefined Error Pic](./docs/node-error.png)
 
+
 ## Intro
 
 > "whatever can go wrong, will go wrong." - Capt. Edward A. Murphy, 1949
@@ -183,6 +184,7 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 
 
 ### Resources
+- [ES6 Features](http://es6-features.org/)
 - [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
 - [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
 - [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
