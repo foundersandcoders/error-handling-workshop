@@ -130,7 +130,7 @@ It is worth noting that use of the Error constructor for error first callbacks i
 const changeInt = (func, int, cb) => {
   if (!func || !int) {
     cb('insufficient arguments provided'))
-  } 
+  }
 ```
 This example shows a simple string passed as the first argument to the callback function. One advantage to this approach is the error message is immediately available for use if you choose to log it and continue (no need for **error.message**), but you'll be running the risk of the string error finding its way into the model of your application if you forget to handle it.
 
@@ -156,7 +156,7 @@ You need to validate the form contents before providing an appropriate response 
 Working in pairs, clone this repo to get started with the basic file structure and dependencies. You should utilise the **Returning errors** and/or **Error first callback** methods described above,
 and be sure to cover as many cases as possible in your tests.
 
-The functions to build are located in the *modules* directory and the tests are located in *tests.js*.
+The functions to build are located in the *modules* directory and the tests are located in the *tests* directory.
 
 ### (Bonus exercise if you have time)
 
@@ -171,7 +171,7 @@ const router = (request, response) => {
         request.on('data', (data) => {
             body += data;
         });
-        
+
         request.on('end', () => {
             const post = qs.parse(body);
             // now deal with post
@@ -189,5 +189,5 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 - [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
 - [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
 - [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
-- [Shot Documentation](https://github.com/hapijs/shot) 
-- [Joyent- Error Handling](https://www.joyent.com/node-js/production/design/errors) 
+- [Shot Documentation](https://github.com/hapijs/shot)
+- [Joyent- Error Handling](https://www.joyent.com/node-js/production/design/errors)
