@@ -32,7 +32,7 @@ const addTenToEach = (arr) => arr.map(num => addTen(num))
 
 const arrayOfNumbersIThink = [0, 2, {number: 6}, 8]
 
-const result = addTenToEach(arrayOfTheSameDataIThink)
+const result = addTenToEach(arrayOfNumbersIThink)
 
 console.log(result);
 // [ 10, 12, '[object Object]10', 18 ]
