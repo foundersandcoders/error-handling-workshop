@@ -336,13 +336,13 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 
 
 ### Resources
-- [ES6 Features- Destructuring](http://es6-features.org/#ParameterContextMatching)
-- [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
-- [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
-- [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
-- [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
-- [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
-- [Shot Documentation](https://github.com/hapijs/shot)
-- [Joyent- Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
-- [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
-- [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
+1. [ES6 Features- Destructuring](http://es6-features.org/#ParameterContextMatching)
+2. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
+3. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
+4. [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+5. [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+6. [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
+7. [Shot Documentation](https://github.com/hapijs/shot)
+8. [Joyent- Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+9. [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
+10. [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
