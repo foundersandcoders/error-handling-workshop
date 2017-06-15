@@ -52,7 +52,7 @@ module.exports = (req, res, body) => {
     (err, message) =>
       err
         ? resJson(res, 500, { error: 'Internal Error' })
-        : resJson(res, 200, message)
+        : resJson(res, 200, { message })
   );
 };
 

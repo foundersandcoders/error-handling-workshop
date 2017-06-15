@@ -14,6 +14,6 @@ module.exports = (filename, contents, callback) => {
   fs.writeFile(path.resolve(__dirname, filename), contents.body, (err) =>
     err
       ? callback(err)
-      : callback(null, { message: `record created at ${filename}` })
+      : callback(null, `record created at ${filename}`)
   );
 };
