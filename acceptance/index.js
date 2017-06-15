@@ -172,7 +172,7 @@ const fixtures = [
 
 fixtures.forEach(({ name, payload, assertStatusCode }) => {
   tape(`Acceptance | ${name}`, (t) => {
-    shot.inject(router, { method: 'POST', url: '/books', payload }, (res) => {
+    shot.inject(router, { method: 'POST', url: '/submit', payload }, (res) => {
       t.equal(res.statusCode, assertStatusCode, `HTTP ${assertStatusCode} | ${res.payload}`);
       t.end();
     });
