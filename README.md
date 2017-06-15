@@ -287,62 +287,59 @@ Invalid argument: Second argument 2.3 is not an integer
 * Structurally similar to returning errors in that it requires checks in the calling code.
 * Maintain consistent interfaces; if a function requires a callback, do not also `throw` or `return` errors to the caller.
 
-# Exercise: Server-side Validation
+# Exercise: Error Handling & Server-side Validation
 
 ![Astronaut Kitten](./docs/astronaut-kitten.png)
 
-**Problem:** As part of an application that serves users wishing to apply to be an astronaut, you're running a server which accepts POST requests of a forms content to the path **/submit**.
-You need to validate the form contents before providing an appropriate response to the user, so you'll need write several functions inside of the handler dealing with requests to **/submit**, and write tests for these functions.
+## Problem
+As part of an application that serves ~~kittehs~~ users wishing to apply to be an astronaut, you're running a server which accepts POST requests of a forms content to the path /submit. You need to validate the form contents before providing an appropriate response to the ~~kitteh~~ user, so you'll need write several functions inside of the handler dealing with requests to /submit, and write tests for these functions.
 
-## Form Requirements
-- **name**: String (characters allowed: letter, dash, apostrophe. Must contain at least two letters)
-- **age**: Integer (must be greater than 16 but less than 80)
-- **email**: String (valid email address, for help check out [this](http://stackoverflow.com/questions/46155/validate-email-address-in-javascript) stack overflow answer)
-- **reason**: String (any non-empty string of any length)
+## Specification
+##### `POST /submit`
+This endpoint accepts the following parameters in the body of the request (also known as the payload):
 
-## Functions Required
-- validateName
-- validateAge
-- validateEmail
-- validateReason
+* `filename`: String, filename with which the application will be saved. 30 characters or fewer. Beware of [directory traversal!](https://www.owasp.org/index.php/Path_Traversal)
+* `contents`: Object, with the following attributes...
+  * `name`: String, name of the applicant, 30 characters or fewer.
+  * `age`: Integer, between 2 and 20.
+  * `body`: String, body of the application text, 10000 characters or fewer.
 
-Working in pairs, clone this repo to get started with the basic file structure and dependencies. You should utilise the **Returning errors** and/or **Error first callback** methods described above,
-and be sure to cover as many cases as possible in your tests.
-
-The functions to build are located in the *modules* directory and the tests are located in the *tests* directory.
-
-### (Bonus exercise if you have time)
-
-Build a *router* for your server to handle POST requests to **/submit**. This example should help with dealing with post requests;
-```javascript
-const qs = require('querystring');
-
-const router = (request, response) => {
-    if (request.method == 'POST') {
-        let body = '';
-
-        request.on('data', (data) => {
-            body += data;
-        });
-
-        request.on('end', () => {
-            const post = qs.parse(body);
-            // now deal with post
-        });
-    }
-}
+Once the handler has validated the parameters of the request it should call the provided `createRecord` function, which has the following signature:
+```js
+createRecord(filename, contents, callback)
 ```
-Your router should call a handler which utilises the *validateName*, *validateAge*, *validateEmail*, *validateReason* to check the form contents, then write either a simple success or fail response to the user. On a related note, check out [this](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/) great article on handling 404 errors. You can test your router using the [shot](https://github.com/hapijs/shot) module, which is added as a dependency to this project. Good luck! :)
+* `filename`: Filename to save to, same definition as above.
+* `contents`: Data structure defining the book contents with the same definition as above.
+* `callback`: A function with the signature `callback(error, message)`, where `error` is either `null` or a potential `Error` object, `message` contains the response to the client.
 
+**Note**: the `createRecord` function performs no error checking and assumes all its inputs are correct. Incorrect inputs will have unpredictable consequences.
+
+## Other Requirements
+* The server should not crash because of a client request.
+* If the client supplies bad data, the server should respond with a `400` (Bad request) status code and a helpful message indicating the problem.
+
+## Steps
+1. Decide how your validation code will indicate that there is a problem with the payload. You are free to use any of the three approaches outlined above (or use another approach if you feel it is appropriate).
+2. Start by writing individual functions to validate each aspect of the payload. This will make it easier to adhere to TDD as you write them (which you should). We've started you off with `modules/validateFilename.js` and `tests/modules/validateFilename.test.js`.
+3. After you have written your individual functions, you can move on to completing the handler in `modules/handler.js`. This can also be approached using TDD by using the [`shot`](https://github.com/hapijs/shot) module to test your handler. We've started you off again with `modules/handler.js` and `tests/modules/index.test.js`.
+4. After you think you have finished, run the acceptance tests with `npm run acceptance`. If any of them fail, you have missed an edge case. Otherwise, you are done :tada:
+
+### Notes
+These notes are important to be aware of in general, but are not necessary for the purposes of the workshop.
+
+#### Error-First Callback Pattern
+There are a couple of gotchas when using this callback pattern:
+* You _must_ ensure that the callback is not called more than once in your function. This can be done either using `if/else` blocks, `switch` statements (with `break`), or early `return` statements (e.g. `return callback(null, result)`).
+* When presenting a callback interface to the caller, it will expect the callback to be executed asynchronously. On Node.js, you can use [`process.nextTick`](https://nodejs.org/api/process.html#process_process_nexttick_callback_args) for this purpose, on the client-side, you can use `setTimeout(Function, 0)`.
 
 ### Resources
-1. [ES6 Features- Destructuring](http://es6-features.org/#ParameterContextMatching)
+1. [ES6 Features - Destructuring](http://es6-features.org/#ParameterContextMatching)
 2. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
 3. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
-4. [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
-5. [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+4. [MDN - Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+5. [MDN - instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
 6. [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
 7. [Shot Documentation](https://github.com/hapijs/shot)
-8. [Joyent- Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+8. [Joyent - Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
 9. [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
 10. [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
