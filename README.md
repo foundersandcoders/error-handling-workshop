@@ -227,6 +227,7 @@ Invalid argument: Second argument 2.3 is not an integer
   * This places a burden on the developer(s). If they forget to place error checks on return values that might be `Error` objects, they are effectively introducing a programmer error that may result in other errors being thrown elsewhere in the application.
 * Does not catch programmer errors.
   * This is actually a good thing, in light of [this](#kinds-of-errors) and [[8]](#resources).
+* This is a specific example of a more general pattern, namely, returning an object which indicates whether the operation has been successful or not. Alternatives include returning an object with a `success` or `isValid` field.
 
 ### Approach 3. Error-First Callbacks
 This next approach is a widespread pattern in Node.js that you will already have encountered, for example when using the `fs` module. It is one of the ways that we can deal with errors that are generated during asynchronous processes in Node.js.

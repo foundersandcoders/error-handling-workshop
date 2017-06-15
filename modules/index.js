@@ -1,3 +1,8 @@
+/*
+ * Router
+ *
+ * Can be passed to http.createServer as the request listener
+ */
 'use strict';
 
 const url = require('url');
