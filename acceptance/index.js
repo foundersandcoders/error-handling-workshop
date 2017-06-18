@@ -2,7 +2,6 @@
 
 const tape = require('tape');
 const shot = require('shot');
-const sorrow = require('sorrow');
 const router = require('../modules');
 
 
