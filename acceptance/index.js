@@ -71,7 +71,7 @@ const fixtures = [
     assertStatusCode: 400
   },
   {
-    // Designed to catch NaNs in the `pageLimit` field
+    // Designed to catch NaNs in the `age` field
     name: 'Non-numeric string age',
     payload: {
       filename: 'grht24t',
