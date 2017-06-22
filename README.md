@@ -84,7 +84,7 @@ Regardless of the chosen approach, there are some principles which can be genera
 ### Illustrative Example
 To illustrate the three approaches we will cover, we will use the same simple example in each, so that comparisons are easier. Imagine you intend to write a function `applyToInteger`, with the following signature:
 ```js
-applyToInteger(func: Function, integer: Number)
+applyToInteger(func, integer)
 ```
 That is, the function accepts two arguments, `func`, which is a `Function`, and `integer` which is a whole `Number`. It applies the `func` to `integer` and returns the result. We will use this example to explore how to deal with unexpected inputs.
 
