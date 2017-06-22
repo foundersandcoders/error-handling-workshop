@@ -1,7 +1,7 @@
 # Error Handling Workshop
 **Author**: [@njsfield](https://github.com/njsfield)
 
-**Maintainer**: TBC
+**Maintainer**: [@eliascodes](https://github.com/eliascodes)
 
 Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https://github.com/rjmk/fac-error-talk)
 
