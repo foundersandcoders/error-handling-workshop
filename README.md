@@ -283,7 +283,7 @@ Invalid argument: Second argument 2.3 is not an integer
 ```
 
 #### Guidance
-* Most common way to handle errors that occur in asynchronous operations.
+* This is the convention for handling errors when using callbacks for asynchronous control flow in Node. Try not to deviate from this pattern when writing async callback-based code.
 * Structurally similar to returning errors in that it requires checks in the calling code.
 * Maintain consistent interfaces; if a function requires a callback, do not also `throw` or `return` errors to the caller.
 
