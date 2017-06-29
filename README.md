@@ -66,7 +66,7 @@ How you should handle any given error depends on what kind of error it is. Opera
 
 There is, however, no blanket rule for what to do; each error represents a specific problem in the context of an entire application and the appropriate response to it will be heavily context dependent.
 
-## Approaches
+## Approaches
 Good error handling is typically not something that can just be bolted onto an existing program as an afterthought. Well conceived error handling will affect the structure of the code. In JavaScript and Node.js, there are a number of approaches, some of which are explored below.
 
 ### General Principles
@@ -74,6 +74,7 @@ Regardless of the chosen approach, there are some principles which can be genera
 1. **Be consistent, not ad-hoc.**
   * Inconsistent approaches to error handling will complicate your code and make it much harder to reason about.
 2. **Try to trip into a failure code path as early as possible.**
+  * A _code path_ is the path that data takes through your code. A _success code path_ is the path data takes if everything goes right. A _failure code path_ is the path data takes if something goes wrong.
   * For example, it may be tempting to return default values in the case of an error and allow the application to continue as normal.
   * This may be appropriate in some cases, but can often cover up the root cause of an error and make it difficult to track down, or result in unhelpful error messages.
 3. **Propagate errors to a part of the application that has sufficient context to know how to deal with them.**
