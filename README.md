@@ -1,9 +1,9 @@
-**Author**: [@njsfield](https://github.com/njsfield)  
+# Error Handling Workshop
+**Author**: [@njsfield](https://github.com/njsfield)
 
 **Maintainer**: TBC
 
-# Error Handling Workshop
-Inspired by @rjmk and his [error handling talk](https://github.com/rjmk/fac-error-talk)
+Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https://github.com/rjmk/fac-error-talk)
 
 ![Undefined Error Pic](./docs/node-error.png)
 
@@ -14,26 +14,34 @@ Inspired by @rjmk and his [error handling talk](https://github.com/rjmk/fac-erro
 
 Before 1949, the saying had actually been around for years. Murphy gave it a name when working on Air Force Project MX981, a project designed to see how much sudden deceleration a person can stand in a crash. The "law" was used successfully in the project to assert good safety measures, by way of focussing on circumventing errors.
 
-### Problem
+## Learning Outcomes
+* Understand the need to handle errors and why poor error handling can be dangerous
+* Understand how to `throw` an error
+* Understand how to use `try/catch` to handle thrown errors
+* Understand how to use the return error pattern
+* Understand how to use the error-first callback pattern
+* Understand in what contexts each of these approaches might be useful
+* Understand why server-side validation is necessary for safe software
 
-JavaScript is a dynamically typed language. You can call a function with any types of arguments passed to it, and the function will easily try to execute;
+## Problem
+
+JavaScript is a dynamically typed language. You can call a function with any types of arguments passed to it, and the function will try to execute;
 
 ```javascript
-const changeVal = (func,val) => func(val)
+const changeVal = (func, val) => func(val)
 
 console.log(changeVal({}, 6))
 
 // TypeError: func is not a function
 ```
-... and easily fail and break your application if needed.
-This example seems trivial, but can easily happen (perhaps by forgetting to pass all arguments into a function, or passing them in the wrong order).
+... and could fail and break your application.  This example seems trivial, but can easily happen (perhaps by forgetting to pass all arguments into a function, or passing them in the wrong order).
 
 Sometimes errors happen silently, causing problems down the line that are hard to trace;
 
 ```javascript
 const addTen = (num) => num + 10
 
-const addTenToEach = (arr) => arr.map(num => addTen(num))
+const addTenToEach = (arr) => arr.map(addTen)
 
 const arrayOfNumbersIThink = [0, 2, {number: 6}, 8]
 
@@ -45,102 +53,242 @@ console.log(result);
 nextOperation(result)
 // ... danger
 ```
-Here our **addTen** function has unknowingly worked with two different data types, and our lovely JavaScript engine has coerced them into strings and concatenated them together to produce **[object Object]10**, which is not helpful.
+Here our `addTen` function has unknowingly worked with two different data types: a `Number` and an `Object`. When asked to add a number to an object, our lovely JavaScript engine coerces them both to strings and concatenates them together to produce `'[object Object]10'`, which is not helpful.
 
-If **arrayOfNumbersIThink** was retrieved from an API call, we can't always be certain the values will be what we expect. How can we deal with these unknown situations?
+If `arrayOfNumbersIThink` was retrieved from an API call or user input, we can't always be certain the values will be what we expect. How can we deal with these situations?
 
-### 1. Error Throwing
+## Kinds Of Errors
+Broadly speaking, errors come in two kinds [[8]](#resources):
+* **Programmer errors**: These are _bugs_; they are unintended and/or unanticipated behaviour of the code, and they can only be fixed by changing the code (e.g. calling a function with the wrong number of arguments)
+* **Operational errors**: These are runtime errors that are usually caused by some external factor (e.g. any kind of network error, failure to read a file, running out of memory, etc.)
 
-During runtime, errors can be thrown in our application unexpectedly by computations acting on faulty computations produced earlier (like the one above). We can also manually throw errors ourselves, for example;
+How you should handle any given error depends on what kind of error it is. Operational errors are a normal part of the issues a program must deal with. They typically should not cause the program to terminate or behave unexpectedly. By contrast, programmer errors are by definition unanticipated, and may potentially leave the application with unpredictable state and behaviour. In this case it is usually best to terminate the program.
 
-```javascript
-// 1. Application tries to import files before it starts up.
-// 2. Application calls this function to assert they exist
-// then prepare them in some way, and return the prepared result.
-const prepareFiles = (files, prepareFunc) => {
-  if (!files) {
-    throw new Error('No files provided')
-  } else {
-    prepareFunc(files));
+There is, however, no blanket rule for what to do; each error represents a specific problem in the context of an entire application and the appropriate response to it will be heavily context dependent.
+
+## Approaches
+Good error handling is typically not something that can just be bolted onto an existing program as an afterthought. Well conceived error handling will affect the structure of the code. In JavaScript and Node.js, there are a number of approaches, some of which are explored below.
+
+### General Principles
+Regardless of the chosen approach, there are some principles which can be generally applied:
+1. **Be consistent, not ad-hoc.**
+  * Inconsistent approaches to error handling will complicate your code and make it much harder to reason about.
+2. **Try to trip into a failure code path as early as possible.**
+  * A _code path_ is the path that data takes through your code. A _success code path_ is the path data takes if everything goes right. A _failure code path_ is the path data takes if something goes wrong.
+  * For example, it may be tempting to return default values in the case of an error and allow the application to continue as normal.
+  * This may be appropriate in some cases, but can often cover up the root cause of an error and make it difficult to track down, or result in unhelpful error messages.
+3. **Propagate errors to a part of the application that has sufficient context to know how to deal with them.**
+  * Many times, we will write generic functions to perform common actions, like making a network request.
+  * If the network request fails, the generic function cannot infer the appropriate response, because it doesn't know which part of the application it has been called from.
+  * It should therefore try to propagate the error to its caller instead of trying to recover directly.
+
+### Illustrative Example
+To illustrate the three approaches we will cover, we will use the same simple example in each, so that comparisons are easier. Imagine you intend to write a function `applyToInteger`, with the following signature:
+```js
+applyToInteger(func, integer)
+```
+That is, the function accepts two arguments, `func`, which is a `Function`, and `integer` which is a whole `Number`. It applies the `func` to `integer` and returns the result. We will use this example to explore how to deal with unexpected inputs.
+
+### Approach 1: Throwing and Catching Errors
+
+#### Throwing
+During runtime, errors can be thrown in our application unexpectedly by computations acting on faulty computations produced earlier (like the first example above). We can also manually throw errors ourselves by using the [`throw`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw) keyword. This will immediately terminate the application, unless there is a [`catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) block in the call stack.
+
+#### Catching
+Errors that have been thrown can be caught using a [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) block. The `catch` block will catch all errors that arise in the `try` block, even if they are programmer errors. Ideally there would be sufficient logic in the `catch` block to differentiate these cases so that we are not at risk of recovering from a programmer error.
+
+#### Example
+```js
+const applyToInteger = (func, integer) => {
+  if (typeof func !== 'function') {
+    throw new TypeError('Invalid argument: First argument is not a function');
+  }
+
+  if (! Number.isInteger(integer)) {
+    throw new TypeError(`Invalid argument: Second argument ${integer} is not an integer`);
+  }
+
+  return func(integer);
+};
+```
+
+Using this function in the REPL:
+```
+> applyToInteger((n) => 2 * n, 2)
+4
+
+> applyToInteger((n) => `You passed ${n}`, -4)
+'You passed -4'
+
+> applyToInteger({}, 2)
+TypeError: Invalid argument: First argument is not a function
+...
+
+> applyToInteger((n) => n, 2.3)
+TypeError: Invalid argument: Second argument 2.3 is not an integer
+...
+```
+
+If we wish to be able to recover, we can augment this approach by using a `try/catch` block:
+
+```js
+const applyAndPrintResult = (func, integer) => {
+  try {
+    const result = applyToInteger(func, integer);
+
+    console.log('Result successfully calculated:');
+    console.log(`Applying ${func.name} to ${integer} gives ${result}`);
+  } catch (e) {
+    console.log('Sorry, result could not be calculated:');
+    console.log(e.message);
   }
 }
 ```
-Sometimes its best to stop our application from running before crazy things happen. Without functions like this, tracing bugs can be time consuming down the line.
 
-### 2. Returning errors
+Using this function in the REPL:
+```
+> applyAndPrintResult(function double (n) { return 2 * n; }, 2)
+Result successfully calculated:
+Applying double to 2 gives 4
 
-```javascript
-const changeInt = (func, int) => {
-  if (!func || !int) {
-    return new Error('insufficient arguments provided')
+> applyAndPrintResult(function increment (n) { return n + 1; }, -4)
+Result successfully calculated:
+Applying increment to -4 gives -3
+
+> applyAndPrintResult({}, 2)
+Sorry, result could not be calculated:
+Invalid argument: First argument is not a function
+
+> applyAndPrintResult((n) => n, 2.3)
+Sorry, result could not be calculated:
+Invalid argument: Second argument 2.3 is not an integer
+```
+
+#### Guidance
+While fairly drastic, throwing errors is a useful approach and is appropriate in many cases.
+* Throwing can be useful for making critical assertions about the state of your application, especially during startup (e.g. database connection has been established).
+* Throwing should **only** be used in synchronous functions, **not** in asynchronous functions. Errors thrown from asynchronous functions will not be caught. To understand why, learn about the javascript [call stack](https://www.youtube.com/watch?v=8aGhZQkoFbQ).
+* Remember to use `catch` blocks to avoid inappropriate program termination. (e.g. a server should usually not crash in the course of dealing with a client request).
+* Without `catch` blocks codebases that `throw` errors extensively will be very fragile.
+* Do not simply log the error in a `catch` block. This can be worse than no error handling at all.
+* Note that `catch` will trap errors that are thrown at any point in the call stack generated by the `try` block.
+
+### Approach 2. Returning Errors to the Caller
+Rather than throwing the error, another approach you might consider is simply to return it to the caller. Our example looks very similar to the first approach, except that instead of a `try/catch` block, we have an `if/else` that checks the return value using the [`instanceof`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof) operator.
+
+#### Example
+```js
+const applyToInteger = (func, integer) => {
+  if (typeof func !== 'function') {
+    return new TypeError('Invalid argument: First argument is not a function');
   }
-  else if (!(func instanceof Function)) {
-    return new Error('func is not a function')
 
-  } else if (!Number.isInteger(int)) {
-    return new Error('int argument is not an integer')
+  if (! Number.isInteger(integer)) {
+    return new TypeError(`Invalid argument: Second argument ${integer} is not an integer`);
+  }
 
+  return func(integer);
+};
+
+const applyAndPrintResult = (func, integer) => {
+  const result = applyToInteger(func, integer);
+
+  if (result instanceof Error) {
+    console.log('Sorry, result could not be calculated:');
+    console.log(result.message);
   } else {
-    return func(int)
+    console.log('Result successfully calculated:');
+    console.log(`Applying ${func.name} to ${integer} gives ${result}`);
   }
-}
-
-const willFail = (func, int) => {
-  const result = changeInt(func, int);
-  return result instanceof Error ? true : false;
 }
 ```
 
-Here the existence and types of inputs are checked for the **changeInt** function. An Error is returned if the cases aren't satisfied in the if branches,
-otherwise the result of calling *func(int)* is returned. The *willFail* function similarly takes the same arguments, and first calls *changeInt*, storing the result in a variable.
-The *instanceof* operator is used to check whether the result is an error, and returns true if it is or false if it isn't.
+Using this function in the REPL:
+```
+> applyAndPrintResult(function double (n) { return 2 * n; }, 2)
+Result successfully calculated:
+Applying double to 2 gives 4
 
-### 3. Error first callbacks
+> applyAndPrintResult(function increment (n) { return n + 1; }, -4)
+Result successfully calculated:
+Applying increment to -4 gives -3
 
-```javascript
-const changeInt = (func, int, cb) => {
-  if (!func || !int) {
-    cb(new Error('insufficient arguments provided'))
+> applyAndPrintResult({}, 2)
+Sorry, result could not be calculated:
+Invalid argument: First argument is not a function
+
+> applyAndPrintResult((n) => n, 2.3)
+Sorry, result could not be calculated:
+Invalid argument: Second argument 2.3 is not an integer
+```
+
+#### Guidance
+* Requires more granular error checking throughout the codebase.
+  * A single `catch` block can catch errors that are thrown in multiple functions if it is placed high in the call stack (which it usually should). No similar mechanism exists if errors are simply returned.
+  * This places a burden on the developer(s). If they forget to place error checks on return values that might be `Error` objects, they are effectively introducing a programmer error that may result in other errors being thrown elsewhere in the application.
+* Does not catch programmer errors.
+  * This is actually a good thing, in light of [this](#kinds-of-errors) and [[8]](#resources).
+
+### Approach 3. Error-First Callbacks
+This next approach is a widespread pattern in Node.js that you will already have encountered, for example when using the `fs` module. It is one of the ways that we can deal with errors that are generated during asynchronous processes in Node.js.
+
+We can implement this pattern by requiring a third argument to be passed to `applyToInteger`, which will be a callback function that is executed both in the case where an operational error has occurred, _and_ when the operation completes successfully.
+
+* In the error case, the callback is executed with an `Error` object as its only argument.
+* In the success case, the callback is executed with `null` as its first argument and the result as its second argument
+
+#### Example
+```js
+const applyToInteger = (func, integer, callback) => {
+  if (typeof func !== 'function') {
+    callback(new TypeError('Invalid argument: First argument is not a function'));
   }
-  else if (!(func instanceof Function)) {
-    cb(new Error('func is not a function'))
-
-  } else if (!(Number.isInteger(int))) {
-    cb(new Error('int argument is not an integer'))
-
-  } else {
-    cb(null, func(int))
+  else if (! Number.isInteger(integer)) {
+    callback(new TypeError(`Invalid argument: Second argument ${integer} is not an integer`));
   }
-}
+  else {
+    callback(null, func(integer));
+  }
+};
 
-const willFail = (func, int) => {
-  changeInt(func, int, (error, result) => {
-    if (error) {
-      console.log(error.message)
-      // logging the console here is optional, but it is important to act on it in this branch
+const applyAndPrintResult = (func, integer) => {
+  applyToInteger(func, integer, (err, result) => {
+    if (err) {
+      console.log('Sorry, result could not be calculated:');
+      console.log(err.message);
     } else {
-      // do something if result
+      console.log('Result successfully calculated:');
+      console.log(`Applying ${func.name} to ${integer} gives ${result}`);
     }
   });
 }
 ```
 
-This is a common example that utilises callback functions which you'll see often (especially when dealing with asynchronous operations like API calls or reading file contents).
-**changeInt** now accepts a callback function as its third argument. It checks the existence and types of its arguments like before, and this time if the conditions aren't satisfied then an Error is passed
-as the *first* argument to the callback, otherwise *null* is passed and the result of *func(int)* is passed as the second argument.
-
-*willFail* calls *changeInt* as before, passing its own callback function which checks if an error is provided as the first argument, and if it is then the error message is logged and a corresponding branch of code is executed, otherwise another branch of code is executed.
-
-It is worth noting that use of the Error constructor for error first callbacks is optional...
-```javascript
-const changeInt = (func, int, cb) => {
-  if (!func || !int) {
-    cb('insufficient arguments provided'))
-  }
+Using this function in the REPL:
 ```
-This example shows a simple string passed as the first argument to the callback function. One advantage to this approach is the error message is immediately available for use if you choose to log it and continue (no need for **error.message**), but you'll be running the risk of the string error finding its way into the model of your application if you forget to handle it.
+> applyAndPrintResult(function double (n) { return 2 * n; }, 2)
+Result successfully calculated:
+Applying double to 2 gives 4
 
-# Exercise
+> applyAndPrintResult(function increment (n) { return n + 1; }, -4)
+Result successfully calculated:
+Applying increment to -4 gives -3
+
+> applyAndPrintResult({}, 2)
+Sorry, result could not be calculated:
+Invalid argument: First argument is not a function
+
+> applyAndPrintResult((n) => n, 2.3)
+Sorry, result could not be calculated:
+Invalid argument: Second argument 2.3 is not an integer
+```
+
+#### Guidance
+* This is the convention for handling errors when using callbacks for asynchronous control flow in Node. Try not to deviate from this pattern when writing async callback-based code.
+* Structurally similar to returning errors in that it requires checks in the calling code.
+* Maintain consistent interfaces; if a function requires a callback, do not also `throw` or `return` errors to the caller.
+
+# Exercise: Server-side Validation
 
 ![Astronaut Kitten](./docs/astronaut-kitten.png)
 
@@ -189,13 +337,13 @@ Your router should call a handler which utilises the *validateName*, *validateAg
 
 
 ### Resources
-- [ES6 Features- Destructuring](http://es6-features.org/#ParameterContextMatching)
-- [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
-- [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
-- [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
-- [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
-- [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
-- [Shot Documentation](https://github.com/hapijs/shot)
-- [Joyent- Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
-- [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
-- [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
+1. [ES6 Features- Destructuring](http://es6-features.org/#ParameterContextMatching)
+2. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
+3. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
+4. [MDN- Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+5. [MDN- instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+6. [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
+7. [Shot Documentation](https://github.com/hapijs/shot)
+8. [Joyent- Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+9. [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
+10. [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
