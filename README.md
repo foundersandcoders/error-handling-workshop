@@ -294,7 +294,7 @@ Invalid argument: Second argument 2.3 is not an integer
 ![Astronaut Kitten](./docs/astronaut-kitten.png)
 
 ## Problem
-As part of an application that serves ~~kittehs~~ users wishing to apply to be an astronaut, you're running a server which accepts POST requests of a forms content to the path /submit. You need to validate the form contents before providing an appropriate response to the ~~kitteh~~ user, so you'll need write several functions inside of the handler dealing with requests to /submit, and write tests for these functions.
+As part of an application that serves ~~kittehs~~ users wishing to apply to be an astronaut, you're running a server which accepts `POST` requests of a forms content to the path `/submit`. You need to validate the form contents before providing an appropriate response to the ~~kitteh~~ user, so you'll need write several functions inside of the handler dealing with requests to /submit, and write tests for these functions.
 
 ## Specification
 ##### `POST /submit`
