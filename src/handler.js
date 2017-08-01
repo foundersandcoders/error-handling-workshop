@@ -6,6 +6,7 @@
 'use strict';
 
 const createRecord = require('./createRecord.js');
+const validateFilename = require('./validateFilename.js');
 
 module.exports = (req, res, body) => {
   // fill in...
