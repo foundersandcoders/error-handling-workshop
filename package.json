@@ -4,8 +4,8 @@
   "description": "A workshop to help deal with the perils of errors in JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "tape tests/**/*.test.js | tap-spec",
-    "acceptance": "tape acceptance/index.js | tap-spec"
+    "test": "tape tests/src/*.test.js | tap-spec",
+    "acceptance": "tape tests/.acceptance.test.js | tap-spec"
   },
   "contributors": [
     "njsfield",
