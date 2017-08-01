@@ -2,7 +2,7 @@
 
 const tape = require('tape');
 const shot = require('shot');
-const router = require('../../modules');
+const router = require('../../src/router.js');
 
 tape('Example test...', (t) => {
   shot.inject(router, { method: 'GET', url: '/' }, (res) => {
