@@ -36,7 +36,7 @@ console.log(changeVal({}, 6))
 ```
 ... and could fail and break your application.  This example seems trivial, but can easily happen (perhaps by forgetting to pass all arguments into a function, or passing them in the wrong order).
 
-Sometimes errors happen silently, causing problems down the line that are hard to trace;
+Sometimes errors happen silently, causing problems down the line that are hard to trace:
 
 ```javascript
 const addTen = (num) => num + 10
@@ -55,7 +55,7 @@ nextOperation(result)
 ```
 Here our `addTen` function has unknowingly worked with two different data types: a `Number` and an `Object`. When asked to add a number to an object, our lovely JavaScript engine coerces them both to strings and concatenates them together to produce `'[object Object]10'`, which is not helpful.
 
-If `arrayOfNumbersIThink` was retrieved from an API call or user input, we can't always be certain the values will be what we expect. How can we deal with these situations?
+If `arrayOfNumbersIThink` was retrieved from an **API call** or **user input**, we can't always be certain the values will be what we expect. How can we deal with these situations?
 
 ## Kinds Of Errors
 Broadly speaking, errors come in two kinds [[8]](#resources):
@@ -291,12 +291,17 @@ Invalid argument: Second argument 2.3 is not an integer
 
 # Exercise: Error Handling & Server-side Validation
 
-![Astronaut Kitten](./docs/astronaut-kitten.png)
-
 ## Problem
-As part of an application that serves ~~kittehs~~ users wishing to apply to be an astronaut, you're running a server which accepts `POST` requests of a forms content to the path `/submit`. You need to validate the form contents before providing an appropriate response to the ~~kitteh~~ user, so you'll need write several functions inside of the handler dealing with requests to /submit, and write tests for these functions.
+Error handling is a crucial consideration when something can go wrong, or when some of the data in your application isn't quite as you expect. One of the most common examples of unexpected data posing a risk to your application is when an application has to deal with user input.
+
+We cannot guarantee that a user will enter exactly the kind of data we expect. If we do make that assumption, we are essentially introducing an unhandled operational error into our application.
+
+The way that we can avoid introducing this operational error is with **server-side validation**. This means validating the data that is entering your application, and making sure it is the type of data that we expect to be working with, _before_ we try to use it.
+
 
 ## Specification
+As part of an application that serves users wishing to apply to FAC, you're running a server which accepts `POST` requests of a forms content to the path `/submit`. You need to validate the form contents before providing an appropriate response to the user, so you'll need write several functions to use inside of the handler dealing with requests to `/submit`, and write tests for these functions.
+
 ##### `POST /submit`
 This endpoint accepts the following parameters in the body of the request (also known as the payload):
 
