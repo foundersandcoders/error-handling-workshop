@@ -2,7 +2,7 @@
 
 const tape = require('tape');
 const shot = require('shot');
-const router = require('../modules');
+const router = require('../src/router.js');
 
 
 tape('Acceptance Test | Invalid method', (t) => {

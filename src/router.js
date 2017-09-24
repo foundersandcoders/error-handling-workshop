@@ -2,6 +2,8 @@
  * Router
  *
  * Can be passed to http.createServer as the request listener
+ *
+ * Used to help test `src/handler.js` with `shot`
  */
 'use strict';
 
