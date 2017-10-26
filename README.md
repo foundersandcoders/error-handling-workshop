@@ -7,12 +7,18 @@ Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https
 
 ![Undefined Error Pic](./docs/node-error.png)
 
-
-## Intro
-
-> "whatever can go wrong, will go wrong." - Capt. Edward A. Murphy, 1949
-
-Before 1949, the saying had actually been around for years. Murphy gave it a name when working on Air Force Project MX981, a project designed to see how much sudden deceleration a person can stand in a crash. The "law" was used successfully in the project to assert good safety measures, by way of focussing on circumventing errors.
+## Contents
+1. [Learning Outcomes](#learning-outcomes)
+2. [Problem](#problem)
+3. [Kinds of Errors](#kinds-of-errors)
+4. [Approaches](#approaches)
+   1. [General approaches](#general-approaches)
+   2. [Approach 1: Throwing and Catching Errors](#approach-1-throwing-and-catching-errors)
+   3. [Approach 2: Returning Errors to the Caller](#approach-2-returning-errors-to-the-caller)
+   4. [Approach 3: Error-First Callbacks](#approach-3-error-first-callbacks)
+5. [Exercise](#exercise)
+6. [Notes](#notes)
+7. [External Resources](#external-resources)
 
 ## Learning Outcomes
 * Understand the need to handle errors and why poor error handling can be dangerous
@@ -338,7 +344,7 @@ The only relevant places to look are in `src` and `tests/src`. You have been pro
 3. After you have written your individual functions, you can move on to completing the handler in `src/handler.js`. This can also be approached using TDD by using the [`shot`](https://github.com/hapijs/shot) module to test your handler. We've started you off again with `src/handler.js` and `tests/src/router.test.js`.
 4. After you think you have finished, run the acceptance tests with `npm run acceptance`. If any of them fail, you have missed an edge case. Otherwise, you are done :tada:
 
-### Notes
+# Notes
 These notes are important to be aware of in general, but are not necessary for the purposes of the workshop.
 
 #### Error-First Callback Pattern
@@ -346,7 +352,7 @@ There are a couple of gotchas when using this callback pattern:
 * You _must_ ensure that the callback is not called more than once in your function. This can be done either using `if/else` blocks, `switch` statements (with `break`), or early `return` statements (e.g. `return callback(null, result)`).
 * When presenting a callback interface to the caller, it will expect the callback to be executed asynchronously. On Node.js, you can use [`process.nextTick`](https://nodejs.org/api/process.html#process_process_nexttick_callback_args) for this purpose, on the client-side, you can use `setTimeout(Function, 0)`.
 
-### Resources
+# External Resources
 1. [ES6 Features - Destructuring](http://es6-features.org/#ParameterContextMatching)
 2. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
 3. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
