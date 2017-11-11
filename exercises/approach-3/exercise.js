@@ -54,7 +54,7 @@ const sumArray = (xs, cb) => {
 /**
  * Returns a string of the format
  *   "Combined length: L; Combined sum of elements: S"
- * Where L is the combined length of the two arrays and S is the array itself
+ * Where L is the combined length of the two arrays and S is the sum of the elements of the array
  *
  * The function should use `combinedLength`. In the case of invalid inputs, the
  * function should return the string
