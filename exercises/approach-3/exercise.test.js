@@ -8,7 +8,7 @@ const {
 } = require('./exercise');
 
 
-tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
+tape('Exercise :: Approach 3 :: Error-First Callbacks', (test) => {
   test.test('combinedLength :: valid arguments', (t) => {
     t.plan(8);
     combinedLength([], [], (err, res) => {
