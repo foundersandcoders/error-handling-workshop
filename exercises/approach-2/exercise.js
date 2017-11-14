@@ -70,7 +70,7 @@ const combineAndPrint = (a, b) => {
  *
  * 4. Write a function that wraps another function in an error check
  *
- * Fill in the body of the function `wrapTryCatch`, which takes a function `fn1`
+ * Fill in the body of the function `wrapErrorCheck`, which takes a function `fn1`
  * as an argument and returns another function `fn2` which wraps the first in
  * a check for any returned errors.
  *
@@ -83,7 +83,8 @@ const combineAndPrint = (a, b) => {
  * @param  {Function} fn Function to wrap
  * @return {Function}    Wrapped function
  */
-const wrapTryCatch = (fn) => (...args) => {
+const wrapErrorCheck = (fn) => (...args) => {
+  return -1; // Delete this line and write your code below
   // CODE HERE
 };
 
@@ -92,5 +93,5 @@ module.exports = {
   combinedLength,
   sumArray,
   combineAndPrint,
-  wrapTryCatch,
+  wrapErrorCheck,
 };

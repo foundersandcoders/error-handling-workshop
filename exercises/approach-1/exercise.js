@@ -84,6 +84,7 @@ const combineAndPrint = (a, b) => {
  * @return {Function}    Wrapped function
  */
 const wrapTryCatch = (fn) => (...args) => {
+  throw new Error('Delete this line and write your code below');
   // CODE HERE
 };
 
