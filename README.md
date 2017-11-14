@@ -173,7 +173,7 @@ Invalid argument: Second argument 2.3 is not an integer
 #### Guidance
 While fairly drastic, throwing errors is a useful approach and is appropriate in many cases.
 * Throwing can be useful for making critical assertions about the state of your application, especially during startup (e.g. database connection has been established).
-* Throwing should **only** be used in synchronous functions, **not** in asynchronous functions. Errors thrown from asynchronous functions will not be caught. To understand why, learn about the javascript [call stack](https://www.youtube.com/watch?v=8aGhZQkoFbQ).
+* It's not possible to wrap an asynchronous function in a try/catch block, so throwing should only be used with synchronous code. Errors thrown from asynchronous functions will not be caught. To understand why, learn about the javascript [call stack](https://www.youtube.com/watch?v=8aGhZQkoFbQ).
 * Remember to use `catch` blocks to avoid inappropriate program termination. (e.g. a server should usually not crash in the course of dealing with a client request).
 * Without `catch` blocks codebases that `throw` errors extensively will be very fragile.
 * Do not simply log the error in a `catch` block. This can be worse than no error handling at all.
