@@ -77,6 +77,8 @@ const applyAndPrintResult = (func, integer) => {
 #### Trying it out
 If you want to try this out yourself, complete the exercise in [exercises/approach-1](./exercises/approach-1)
 
+or read more [here](https://github.com/foundersandcoders/error-handling-workshop/blob/contents-and-exercises/approaches_detail.md)
+
 ### Approach 2. Returning Errors to the Caller
 Rather than throwing the error, another approach you might consider is simply to return it to the caller. Our example looks very similar to the first approach, except that instead of a `try/catch` block, we have an `if/else` that checks the return value using the [`instanceof`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof) operator.
 
@@ -109,6 +111,9 @@ const applyAndPrintResult = (func, integer) => {
 
 #### Trying it out
 If you want to try this out yourself, complete the exercise in [exercises/approach-2](./exercises/approach-2)
+
+or read more [here](https://github.com/foundersandcoders/error-handling-workshop/blob/contents-and-exercises/approaches_detail.md)
+
 
 ### Approach 3. Error-First Callbacks
 This next approach is a widespread pattern in Node.js that you will already have encountered, for example when using the `fs` module. It is one of the ways that we can deal with errors that are generated during asynchronous processes in Node.js.
@@ -147,6 +152,10 @@ const applyAndPrintResult = (func, integer) => {
 
 #### Trying it out
 If you want to try this out yourself, complete the exercise in [exercises/approach-3](./exercises/approach-3)
+
+
+or read more [here](https://github.com/foundersandcoders/error-handling-workshop/blob/contents-and-exercises/approaches_detail.md)
+
 
 # External Resources
 1. [ES6 Features - Destructuring](http://es6-features.org/#ParameterContextMatching)
