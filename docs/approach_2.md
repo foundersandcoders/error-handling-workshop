@@ -52,7 +52,7 @@ Invalid argument: Second argument 2.3 is not an integer
   * A single `catch` block can catch errors that are thrown in multiple functions if it is placed high in the call stack (which it usually should be). No similar mechanism exists if errors are simply returned.
   * This places a burden on the developer(s). If they forget to place error checks on return values that might be `Error` objects, they are effectively introducing a programmer error that may result in other errors being thrown elsewhere in the application.
 * Does not catch programmer errors.
-  * This is actually a good thing, in light of [this](#kinds-of-errors) and [[8]](#resources).
+  * This could actually be a good thing, trying to recover from programmer errors can be dangerous (see **Kinds of Errors** in the main [README](../README.md) for why).
 * This is a specific example of a more general pattern, namely, returning an object which indicates whether the operation has been successful or not. Alternatives include returning an object with a `success` or `isValid` field.
 
 ## Trying it out
