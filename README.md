@@ -5,7 +5,7 @@
 
 Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https://github.com/rjmk/fac-error-talk)
 
-![Undefined Error Pic](./docs/node-error.png)
+<img src="./docs/node-error.png" width="720px" alt="Undefined Error Pic" />
 
 ## Contents
 1. [Learning Outcomes](#learning-outcomes)
@@ -16,9 +16,8 @@ Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https
    2. [Approach 1: Throwing and Catching Errors](#approach-1-throwing-and-catching-errors)
    3. [Approach 2: Returning Errors to the Caller](#approach-2-returning-errors-to-the-caller)
    4. [Approach 3: Error-First Callbacks](#approach-3-error-first-callbacks)
-5. [Exercise](#exercise)
-6. [Notes](#notes)
-7. [External Resources](#external-resources)
+5. [Notes](#notes)
+6. [External Resources](#external-resources)
 
 ## Learning Outcomes
 * Understand the need to handle errors and why poor error handling can be dangerous
@@ -27,7 +26,6 @@ Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https
 * Understand how to use the return error pattern
 * Understand how to use the error-first callback pattern
 * Understand in what contexts each of these approaches might be useful
-* Understand why server-side validation is necessary for safe software
 
 ## Problem
 
@@ -64,7 +62,7 @@ Here our `addTen` function has unknowingly worked with two different data types:
 If `arrayOfNumbersIThink` was retrieved from an **API call** or **user input**, we can't always be certain the values will be what we expect. How can we deal with these situations?
 
 ## Kinds Of Errors
-Broadly speaking, errors come in two kinds [[8]](#resources):
+Broadly speaking, errors come in two kinds [[2]](#external-resources):
 * **Programmer errors**: These are _bugs_; they are unintended and/or unanticipated behaviour of the code, and they can only be fixed by changing the code (e.g. calling a function with the wrong number of arguments)
 * **Operational errors**: These are runtime errors that are usually caused by some external factor (e.g. any kind of network error, failure to read a file, running out of memory, etc.)
 
@@ -115,13 +113,10 @@ There are a couple of gotchas when using this callback pattern:
 * When presenting a callback interface to the caller, it will expect the callback to be executed asynchronously. In Node.js, you can use [`process.nextTick`](https://nodejs.org/api/process.html#process_process_nexttick_callback_args) for this purpose, on the client-side, you can use `setTimeout(Function, 0)`. Again, learn about the [event-loop and the call-stack](https://www.youtube.com/watch?v=8aGhZQkoFbQ) to understand why.
 
 # External Resources
-1. [ES6 Features - Destructuring](http://es6-features.org/#ParameterContextMatching)
-2. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
-3. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
-4. [MDN - Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
-5. [MDN - instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
-6. [Post Requests in Node](http://stackoverflow.com/questions/4295782/how-do-you-extract-post-data-in-node-js)
-7. [Shot Documentation](https://github.com/hapijs/shot)
-8. [Joyent - Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
-9. [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
-10. [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
+1. [Rafe's (@rjmk) Error Handling Talk](https://github.com/rjmk/fac-error-talk)
+2. [Joyent - Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+3. [Proper Error Handling in JavaScript](https://www.sitepoint.com/proper-error-handling-javascript/)
+4. [The Beginner's Guide to Type Coercion: A Practical Example](https://code.tutsplus.com/articles/the-beginners-guide-to-type-coercion-a-practical-example--cms-21998)
+5. [MDN - Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+6. [MDN - instanceof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+7. [404 Error Pages](https://www.smashingmagazine.com/2009/01/404-error-pages-one-more-time/)
