@@ -46,6 +46,7 @@ tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
     t.ok(sumArray({}) instanceof TypeError, 'Calling sumArray with ({}) should return a new TypeError');
     t.ok(sumArray('') instanceof TypeError, 'Calling sumArray with (\'\') should return a new TypeError');
     t.ok(sumArray(true) instanceof TypeError, 'Calling sumArray with (true) should return a new TypeError');
+    t.ok(sumArray(['', 2]) instanceof TypeError, 'Calling sumArray with (['', 2]) should return a new TypeError');
     t.ok(sumArray([1, '', true]) instanceof TypeError, 'Calling sumArray with ([1, \'\', true]) should return a new TypeError');
     t.end();
   });

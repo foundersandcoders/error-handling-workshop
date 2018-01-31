@@ -88,6 +88,9 @@ tape('Exercise :: Approach 3 :: Error-First Callbacks', (test) => {
     sumArray(true, (err, res) => {
       t.ok(err instanceof TypeError, 'Calling sumArray with (true) should return a new TypeError');
     });
+    sumArray(['', 2], (err, res) => {
+      t.ok(err instanceof TypeError, 'Calling sumArray with ['', 2] should return a new TypeError');
+    });
     sumArray([1, '', true], (err, res) => {
       t.ok(err instanceof TypeError, 'Calling sumArray with ([1, \'\', true]) should return a new TypeError');
     });

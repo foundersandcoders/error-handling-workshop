@@ -40,12 +40,13 @@ tape('Exercise :: Approach 1 :: Try and Catch', (test) => {
   });
 
   test.test('sumArray :: invalid arguments', (t) => {
-    t.plan(6);
+    t.plan(7);
     t.throws(() => sumArray(), TypeError, 'Calling sumArray with no arguments should throw a new TypeError');
     t.throws(() => sumArray(1), TypeError, 'Calling sumArray with (1) should throw a new TypeError');
     t.throws(() => sumArray({}), TypeError, 'Calling sumArray with ({}) should throw a new TypeError');
     t.throws(() => sumArray(''), TypeError, 'Calling sumArray with (\'\') should throw a new TypeError');
     t.throws(() => sumArray(true), TypeError, 'Calling sumArray with (true) should throw a new TypeError');
+    t.throws(() => sumArray(['', 2]), TypeError, 'Calling sumArray with (['', 2]) should throw a new TypeError');
     t.throws(() => sumArray([1, '', true]), TypeError, 'Calling sumArray with ([1, \'\', true]) should throw a new TypeError');
     t.end();
   });
