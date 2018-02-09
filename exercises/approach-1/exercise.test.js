@@ -72,7 +72,7 @@ tape('Exercise :: Approach 1 :: Error-First Callbacks', (test) => {
   });
 
   test.test('sumArray :: invalid arguments', (t) => {
-    t.plan(6);
+    t.plan(7);
     sumArray(undefined, (err, res) => {
       t.ok(err instanceof TypeError, 'Calling sumArray with no arguments should return a new TypeError');
     });
@@ -89,7 +89,7 @@ tape('Exercise :: Approach 1 :: Error-First Callbacks', (test) => {
       t.ok(err instanceof TypeError, 'Calling sumArray with (true) should return a new TypeError');
     });
     sumArray(['', 2], (err, res) => {
-      t.ok(err instanceof TypeError, 'Calling sumArray with ['', 2] should return a new TypeError');
+      t.ok(err instanceof TypeError, 'Calling sumArray with [\'\', 2] should return a new TypeError');
     });
     sumArray([1, '', true], (err, res) => {
       t.ok(err instanceof TypeError, 'Calling sumArray with ([1, \'\', true]) should return a new TypeError');

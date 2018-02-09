@@ -46,7 +46,7 @@ tape('Exercise :: Approach 2 :: Try and Catch', (test) => {
     t.throws(() => sumArray({}), TypeError, 'Calling sumArray with ({}) should throw a new TypeError');
     t.throws(() => sumArray(''), TypeError, 'Calling sumArray with (\'\') should throw a new TypeError');
     t.throws(() => sumArray(true), TypeError, 'Calling sumArray with (true) should throw a new TypeError');
-    t.throws(() => sumArray(['', 2]), TypeError, 'Calling sumArray with (['', 2]) should throw a new TypeError');
+    t.throws(() => sumArray(['', 2]), TypeError, 'Calling sumArray with ([\'\', 2]) should throw a new TypeError');
     t.throws(() => sumArray([1, '', true]), TypeError, 'Calling sumArray with ([1, \'\', true]) should throw a new TypeError');
     t.end();
   });
