@@ -2,14 +2,14 @@
 
 const tape = require('tape');
 const {
-  wrapErrorCheck,
+  wrapTryCatch,
   combineAndPrint,
   combinedLength,
   sumArray,
 } = require('./exercise');
 
 
-tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
+tape('Exercise :: Approach 2 :: Try and Catch', (test) => {
   test.test('combinedLength :: valid arguments', (t) => {
     t.plan(4);
     t.equal(combinedLength([], []), 0, 'Combined length of [] and [] should be 0');
@@ -21,12 +21,12 @@ tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
 
   test.test('combinedLength :: invalid arguments', (t) => {
     t.plan(6);
-    t.ok(combinedLength() instanceof TypeError, 'Calling combinedLength with no arguments should return a new TypeError');
-    t.ok(combinedLength(1) instanceof TypeError, 'Calling combinedLength with (1) should return a new TypeError');
-    t.ok(combinedLength(1, {}) instanceof TypeError, 'Calling combinedLength with (1, {}) should return a new TypeError');
-    t.ok(combinedLength({}, []) instanceof TypeError, 'Calling combinedLength with ({}, []) arguments should return a new TypeError');
-    t.ok(combinedLength([], {}) instanceof TypeError, 'Calling combinedLength with ([], {}) should return a new TypeError');
-    t.ok(combinedLength('', []) instanceof TypeError, 'Calling combinedLength with (\'\', []) should return a new TypeError');
+    t.throws(() => combinedLength(), TypeError, 'Calling combinedLength with no arguments should throw a new TypeError');
+    t.throws(() => combinedLength(1), TypeError, 'Calling combinedLength with (1) should throw a new TypeError');
+    t.throws(() => combinedLength(1, {}), TypeError, 'Calling combinedLength with (1, {}) should throw a new TypeError');
+    t.throws(() => combinedLength({}, []), TypeError, 'Calling combinedLength with ({}, []) arguments should throw a new TypeError');
+    t.throws(() => combinedLength([], {}), TypeError, 'Calling combinedLength with ([], {}) should throw a new TypeError');
+    t.throws(() => combinedLength('', []), TypeError, 'Calling combinedLength with (\'\', []) should throw a new TypeError');
     t.end();
   });
 
@@ -40,14 +40,14 @@ tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
   });
 
   test.test('sumArray :: invalid arguments', (t) => {
-    t.plan(6);
-    t.ok(sumArray() instanceof TypeError, 'Calling sumArray with no arguments should return a new TypeError');
-    t.ok(sumArray(1) instanceof TypeError, 'Calling sumArray with (1) should return a new TypeError');
-    t.ok(sumArray({}) instanceof TypeError, 'Calling sumArray with ({}) should return a new TypeError');
-    t.ok(sumArray('') instanceof TypeError, 'Calling sumArray with (\'\') should return a new TypeError');
-    t.ok(sumArray(true) instanceof TypeError, 'Calling sumArray with (true) should return a new TypeError');
-    t.ok(sumArray(['', 2]) instanceof TypeError, 'Calling sumArray with (['', 2]) should return a new TypeError');
-    t.ok(sumArray([1, '', true]) instanceof TypeError, 'Calling sumArray with ([1, \'\', true]) should return a new TypeError');
+    t.plan(7);
+    t.throws(() => sumArray(), TypeError, 'Calling sumArray with no arguments should throw a new TypeError');
+    t.throws(() => sumArray(1), TypeError, 'Calling sumArray with (1) should throw a new TypeError');
+    t.throws(() => sumArray({}), TypeError, 'Calling sumArray with ({}) should throw a new TypeError');
+    t.throws(() => sumArray(''), TypeError, 'Calling sumArray with (\'\') should throw a new TypeError');
+    t.throws(() => sumArray(true), TypeError, 'Calling sumArray with (true) should throw a new TypeError');
+    t.throws(() => sumArray(['', 2]), TypeError, 'Calling sumArray with (['', 2]) should throw a new TypeError');
+    t.throws(() => sumArray([1, '', true]), TypeError, 'Calling sumArray with ([1, \'\', true]) should throw a new TypeError');
     t.end();
   });
 
@@ -71,27 +71,34 @@ tape('Exercise :: Approach 2 :: Returning Errors', (test) => {
     t.end();
   });
 
-  test.test('wrapErrorCheck :: valid arguments', (t) => {
-    const fn = wrapErrorCheck(combinedLength);
+  test.test('wrapTryCatch :: valid arguments', (t) => {
+    const fn = wrapTryCatch(combinedLength);
 
-    t.plan(4);
-    t.equal(fn([], []), 0, 'Wrapping combinedLength in an error check should return value 0 for inputs ([], [])');
-    t.equal(fn([1], []), 1, 'Wrapping combinedLength in an error check should return value 1 for inputs ([1], [])');
-    t.equal(fn([], [1]), 1, 'Wrapping combinedLength in an error check should return value 1 for inputs ([], [1])');
-    t.equal(fn([1, 2, 3], [1, 2, 3, 4]), 7, 'Wrapping combinedLength in an error check should return value 7 for inputs ([1, 2, 3], [1, 2, 3, 4])');
-    t.end();
+    try {
+      t.plan(4);
+      t.equal(fn([], []), 0, 'Wrapping combinedLength in try/catch should return value 0 for inputs ([], [])');
+      t.equal(fn([1], []), 1, 'Wrapping combinedLength in try/catch should return value 1 for inputs ([1], [])');
+      t.equal(fn([], [1]), 1, 'Wrapping combinedLength in try/catch should return value 1 for inputs ([], [1])');
+      t.equal(fn([1, 2, 3], [1, 2, 3, 4]), 7, 'Wrapping combinedLength in try/catch should return value 7 for inputs ([1, 2, 3], [1, 2, 3, 4])');
+      t.end();
+    } catch (error) {
+      t.end(error);
+    }
   });
 
-  test.test('wrapErrorCheck :: invalid arguments', (t) => {
-    const fn = wrapErrorCheck(combinedLength);
-
-    t.plan(6);
-    t.equal(fn(), undefined, 'Wrapping combinedLength in an error check should return value undefined for no inputs');
-    t.equal(fn(1), undefined, 'Wrapping combinedLength in an error check should return value undefined for inputs (1)');
-    t.equal(fn(1, {}), undefined, 'Wrapping combinedLength in an error check should return value undefined for inputs (1, {})');
-    t.equal(fn({}, []), undefined, 'Wrapping combinedLength in an error check should return value undefined for inputs ({}, [])');
-    t.equal(fn([], {}), undefined, 'Wrapping combinedLength in an error check should return value undefined for inputs ([], {})');
-    t.equal(fn('', []), undefined, 'Wrapping combinedLength in an error check should return value undefined for inputs (\'\', [])');
-    t.end();
+  test.test('wrapTryCatch :: invalid arguments', (t) => {
+    const fn = wrapTryCatch(combinedLength);
+    try {
+      t.plan(6);
+      t.equal(fn(), undefined, 'Wrapping combinedLength in try/catch should return value undefined for no inputs');
+      t.equal(fn(1), undefined, 'Wrapping combinedLength in try/catch should return value undefined for inputs (1)');
+      t.equal(fn(1, {}), undefined, 'Wrapping combinedLength in try/catch should return value undefined for inputs (1, {})');
+      t.equal(fn({}, []), undefined, 'Wrapping combinedLength in try/catch should return value undefined for inputs ({}, [])');
+      t.equal(fn([], {}), undefined, 'Wrapping combinedLength in try/catch should return value undefined for inputs ([], {})');
+      t.equal(fn('', []), undefined, 'Wrapping combinedLength in try/catch should return value undefined for inputs (\'\', [])');
+      t.end();
+    } catch (error) {
+      t.end(error);
+    }
   });
 });

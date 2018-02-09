@@ -1,34 +1,67 @@
-# Approach 2. Returning Errors to the Caller
-Rather than throwing the error, another approach you might consider is simply to return it to the caller. Our example looks very similar to the first approach, except that instead of a `try/catch` block, we have an `if/else` that checks the return value using the [`instanceof`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof) operator.
+# Approach 2: Throwing and Catching Errors
+
+## Throwing
+
+During runtime, errors can be thrown in our application unexpectedly by computations acting on faulty computations produced earlier (like the first example above). We can also manually throw errors ourselves by using the [`throw`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw) keyword. This will immediately terminate the application, unless there is a [`catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) block in the call stack.
+
+## Catching
+
+Errors that have been thrown can be caught using a [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) block. The `catch` block will catch all errors that arise in the `try` block, even if they are programmer errors. Ideally there would be sufficient logic in the `catch` block to differentiate these cases so that we are not at risk of recovering from a programmer error as though it is an operational error.
 
 ## Example
+
 ```js
 const applyToInteger = (func, integer) => {
-  if (typeof func !== 'function') {
-    return new TypeError('Invalid argument: First argument is not a function');
+  if (typeof func !== "function") {
+    throw new TypeError("Invalid argument: First argument is not a function");
   }
 
-  if (! Number.isInteger(integer)) {
-    return new TypeError(`Invalid argument: Second argument ${integer} is not an integer`);
+  if (!Number.isInteger(integer)) {
+    throw new TypeError(
+      `Invalid argument: Second argument ${integer} is not an integer`
+    );
   }
 
   return func(integer);
 };
-
-const applyAndPrintResult = (func, integer) => {
-  const result = applyToInteger(func, integer);
-
-  if (result instanceof Error) {
-    console.log('Sorry, result could not be calculated:');
-    console.log(result.message);
-  } else {
-    console.log('Result successfully calculated:');
-    console.log(`Applying ${func.name} to ${integer} gives ${result}`);
-  }
-}
 ```
 
 Using this function in the REPL:
+
+```
+> applyToInteger((n) => 2 * n, 2)
+4
+
+> applyToInteger((n) => `You passed ${n}`, -4)
+'You passed -4'
+
+> applyToInteger({}, 2)
+TypeError: Invalid argument: First argument is not a function
+...
+
+> applyToInteger((n) => n, 2.3)
+TypeError: Invalid argument: Second argument 2.3 is not an integer
+...
+```
+
+If we wish to be able to recover, we can augment this approach by using a `try/catch` block. The try block tries to execute the code. If no error is thrown during the try block, the catch block will not run. However if the try block throws an error, the catch block will catch the error and do something with it.
+
+```js
+const applyAndPrintResult = (func, integer) => {
+  try {
+    const result = applyToInteger(func, integer);
+
+    console.log("Result successfully calculated:");
+    console.log(`Applying ${func.name} to ${integer} gives ${result}`);
+  } catch (e) {
+    console.log("Sorry, result could not be calculated:");
+    console.log(e.message);
+  }
+};
+```
+
+Using this function in the REPL:
+
 ```
 > applyAndPrintResult(function double (n) { return 2 * n; }, 2)
 Result successfully calculated:
@@ -48,12 +81,16 @@ Invalid argument: Second argument 2.3 is not an integer
 ```
 
 ## Guidance
-* Requires more granular error checking throughout the codebase.
-  * A single `catch` block can catch errors that are thrown in multiple functions if it is placed high in the call stack (which it usually should be). No similar mechanism exists if errors are simply returned.
-  * This places a burden on the developer(s). If they forget to place error checks on return values that might be `Error` objects, they are effectively introducing a programmer error that may result in other errors being thrown elsewhere in the application.
-* Does not catch programmer errors.
-  * This could actually be a good thing, trying to recover from programmer errors can be dangerous (see **Kinds of Errors** in the main [README](../README.md) for why).
-* This is a specific example of a more general pattern, namely, returning an object which indicates whether the operation has been successful or not. Alternatives include returning an object with a `success` or `isValid` field.
+
+While fairly drastic, throwing errors is a useful approach and is appropriate in many cases.
+
+* Throwing can be useful for making critical assertions about the state of your application, especially during startup (e.g. database connection has been established).
+* It's not possible to wrap an asynchronous function in a try/catch block, so throwing should only be used with synchronous code. Errors thrown from asynchronous functions will not be caught. To understand why, learn about the javascript [call stack](https://www.youtube.com/watch?v=8aGhZQkoFbQ).
+* Remember to use `catch` blocks to avoid inappropriate program termination. (e.g. a server should usually not crash in the course of dealing with a client request).
+* Without `catch` blocks codebases that `throw` errors extensively will be very fragile.
+* Do not simply log the error in a `catch` block. This can be worse than no error handling at all.
+* Note that `catch` will trap errors that are thrown at any point in the call stack generated by the `try` block.
 
 ## Trying it out
+
 If you want to try this out yourself, complete the exercise in [exercises/approach-2](../exercises/approach-2). Test your solutions by running `npm run ex-2`.
