@@ -2,56 +2,54 @@
 
 
 /*
- * 1. Write a function that calls its callback with an error if called with invalid arguments
+ * 1. Write a function that returns an error if called with invalid arguments
  *
- * Fill in the body of the function `combinedLength`, which should execute the given
- * callback with (null, the combined length of two arrays) if it receives correct
- * arguments, and  otherwise should execute its callback with (an appropriate error).
+ * Fill in the body of the function `combinedLength`, which should return
+ * the combined length of two arrays if it receives correct arguments, and
+ * otherwise should return an appropriate error.
  */
 
 /**
  * Calculates the combined length of two arrays
- * @param   {Array}     a  First array
- * @param   {Array}     b  Second array
- * @param   {Function}  cb Callback
- * @returns {undefined}    Nothing
+ * @param   {Array} a First array
+ * @param   {Array} b Second array
+ * @returns {Number}  Combined length of a and b
  */
-const combinedLength = (a, b, cb) => {
-  if (! Array.isArray(a) || ! Array.isArray(b)) {
-    return cb(new TypeError('Both inputs must be arrays'))
+const combinedLength = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    return new TypeError('Both inputs must be arrays');
   }
 
-  return cb(null, a.length + b.length);
+  return a.length + b.length;
 };
 
 
 /*
- * 2. Write a function that sums the numbers in an array and calls its
- *    callback with an error if called with invalid arguments
+ * 2. Write a function that sums the numbers in an array and returns an error
+ *    if called with invalid arguments
  *
- * Fill in the body of the function `sumArray`, which should execute the given
- * callback with (null, the sum of all the elements in the input array). If it
- * receives incorrect arguments, it should execute its callback with (an error).
+ * Fill in the body of the function `sumArray`, which should return
+ * the sum of all the elements in the input array. If it receives incorrect
+ * arguments, it should return an error.
  *
  * Note that all elements of the input array must be numbers.
  */
 
 /**
  * Sums numbers in an array
- * @param   {Array}    xs list of numbers
- * @param   {Function} cb Callback
- * @returns {undefined}   Nothing
+ * @param   {Array} xs list of numbers
+ * @returns {Number}   sum of list
  */
-const sumArray = (xs, cb) => {
+const sumArray = (xs) => {
   if (!Array.isArray(xs)) {
-    return cb(new TypeError('Argument must be an array'));
+    return new TypeError('Argument must be an array');
   }
 
   if (!xs.every((x) => typeof x === 'number')) {
-    return cb(new TypeError('Array elements must be numbers'));
+    return new TypeError('Array elements must be numbers');
   }
 
-  return cb(null, xs.reduce((a, b) => a + b, 0));
+  return xs.reduce((a, b) => a + b, 0);
 }
 
 /*
@@ -71,27 +69,48 @@ const sumArray = (xs, cb) => {
  * The function should use `combinedLength`. In the case of invalid inputs, the
  * function should return the string
  *   "Invalid arguments: both arguments must be arrays"
- * @param   {Array}    a  First array
- * @param   {Array}    b  Second array
- * @param   {Function} cb Callback
- * @returns {undefined}   Nothing
+ * @param   {Array}  a First array
+ * @param   {Array}  b Second array
+ * @returns {String}   Message about the combined arrays
  */
-const combineAndPrint = (a, b, cb) => {
+const combineAndPrint = (a, b) => {
   const errMsg = 'Invalid arguments: both arguments must be arrays';
 
-  combinedLength(a, b, (err1, L) => {
-    if (err1) {
-      return cb(errMsg);
-    }
+  const L = combinedLength(a, b);
+  if (L instanceof Error) {
+    return errMsg;
+  }
 
-    sumArray(a.concat(b), (err2, S) => {
-      if (err2) {
-        return cb(errMsg);
-      }
+  const S = sumArray(a.concat(b));
+  if (S instanceof Error) {
+    return errMsg;
+  }
 
-      cb(null, `Combined length: ${L}; Combined sum of elements: ${S}`);
-    })
-  });
+  return `Combined length: ${L}; Combined sum of elements: ${S}`;
+};
+
+
+/*
+ * **Stretch goal -- Harder -- Optional**
+ *
+ * 4. Write a function that wraps another function in an error check
+ *
+ * Fill in the body of the function `wrapTryCatch`, which takes a function `fn1`
+ * as an argument and returns another function `fn2` which wraps the first in
+ * a check for any returned errors.
+ *
+ * `fn2` should behave exactly like `fn1` except in the case where `fn1` returns an
+ * error, in which case `fn2` should simply return `undefined`
+ */
+
+/**
+ * Wraps given function in error check
+ * @param  {Function} fn Function to wrap
+ * @return {Function}    Wrapped function
+ */
+const wrapTryCatch = (fn) => (...args) => {
+  const res = fn(...args);
+  return res instanceof Error ? undefined : res;
 };
 
 
@@ -99,4 +118,5 @@ module.exports = {
   combinedLength,
   sumArray,
   combineAndPrint,
+  wrapTryCatch,
 };

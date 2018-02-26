@@ -9,25 +9,26 @@ const {
 
 
 tape('Exercise :: Approach 1 :: Error-First Callbacks', (test) => {
-  test.test('combinedLength :: valid arguments', (t) => {
-    t.plan(8);
-    combinedLength([], [], (err, res) => {
-      t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
-      t.equal(res, 0, 'Combined length of [] and [] should be 0');
+    test.test('combinedLength :: valid arguments', (t) => {
+      t.plan(8);
+      combinedLength([], [], (err, res) => {
+        console.log(err, res);
+        t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
+        t.equal(res, 0, 'Combined length of [] and [] should be 0');
+      });
+      combinedLength([1], [], (err, res) => {
+        t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
+        t.equal(res, 1, 'Combined length of [1] and [] should be 1');
+      });
+      combinedLength([], [1], (err, res) => {
+        t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
+        t.equal(res, 1, 'Combined length of [] and [1] should be 1');
+      });
+      combinedLength([1, 2, 3], [1, 2, 3, 4], (err, res) => {
+        t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
+        t.equal(res, 7, 'Combined length of [1, 2, 3] and [1, 2, 3, 4] should be 7');
+      });
     });
-    combinedLength([1], [], (err, res) => {
-      t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
-      t.equal(res, 1, 'Combined length of [1] and [] should be 1');
-    });
-    combinedLength([], [1], (err, res) => {
-      t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
-      t.equal(res, 1, 'Combined length of [] and [1] should be 1');
-    });
-    combinedLength([1, 2, 3], [1, 2, 3, 4], (err, res) => {
-      t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
-      t.equal(res, 7, 'Combined length of [1, 2, 3] and [1, 2, 3, 4] should be 7');
-    });
-  });
 
   test.test('combinedLength :: invalid arguments', (t) => {
     t.plan(6);

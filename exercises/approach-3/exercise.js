@@ -16,8 +16,9 @@
  * @returns {Number}  Combined length of a and b
  */
 const combinedLength = (a, b) => {
-  // CODE HERE
+ // CODE HERE
 };
+
 
 /*
  * 2. Write a function that sums the numbers in an array and returns an error
@@ -36,7 +37,8 @@ const combinedLength = (a, b) => {
  * @returns {Number}   sum of list
  */
 const sumArray = (xs) => {
-  // CODE HERE
+  //CODE HERE
+
 }
 
 /*
@@ -61,7 +63,7 @@ const sumArray = (xs) => {
  * @returns {String}   Message about the combined arrays
  */
 const combineAndPrint = (a, b) => {
-  // CODE HERE
+
 };
 
 
@@ -85,7 +87,7 @@ const combineAndPrint = (a, b) => {
  */
 const wrapErrorCheck = (fn) => (...args) => {
   return -1; // Delete this line and write your code below
-  // CODE HERE
+// CODE HERE
 };
 
 

@@ -37,7 +37,7 @@ const combinedLength = (a, b, cb) => {
  * @returns {undefined}   Nothing
  */
 const sumArray = (xs, cb) => {
-  // CODE HERE
+    //CODE HERE
 };
 
 /*
@@ -63,11 +63,15 @@ const sumArray = (xs, cb) => {
  * @returns {undefined}   Nothing
  */
 const combineAndPrint = (a, b, cb) => {
-  // CODE HERE
+  const errMsg = 'Invalid arguments: both arguments must be arrays';
+
+  combinedLength(a, b, (err1, L) => {
+   //CODE HERE
+  });
 };
 
 module.exports = {
+  combineAndPrint,
   combinedLength,
-  sumArray,
-  combineAndPrint
+  sumArray
 };
