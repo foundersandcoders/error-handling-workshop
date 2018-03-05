@@ -108,7 +108,7 @@ const combineAndPrint = (a, b) => {
  * @param  {Function} fn Function to wrap
  * @return {Function}    Wrapped function
  */
-const wrapTryCatch = (fn) => (...args) => {
+const wrapErrorCheck = (fn) => (...args) => {
   const res = fn(...args);
   return res instanceof Error ? undefined : res;
 };
@@ -118,5 +118,5 @@ module.exports = {
   combinedLength,
   sumArray,
   combineAndPrint,
-  wrapTryCatch,
+  wrapErrorCheck,
 };
