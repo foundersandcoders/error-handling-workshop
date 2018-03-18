@@ -9,16 +9,12 @@ In the error case, the callback is executed with an `Error` object as its only a
 ```js
 const applyToInteger = (func, integer, callback) => {
   if (typeof func !== "function") {
-    callback(
-      new TypeError("Invalid argument: First argument is not a function")
-    );
-  } else if (!Number.isInteger(integer)) {
-    callback(
-      new TypeError(
-        `Invalid argument: Second argument ${integer} is not an integer`
-      )
-    );
-  } else {
+    callback(new TypeError("Invalid argument: First argument is not a function"));
+  }
+  else if (!Number.isInteger(integer)) {
+    callback(new TypeError(`Invalid argument: Second argument ${integer} is not an integer`));
+  }
+  else {
     callback(null, func(integer));
   }
 };

@@ -15,11 +15,8 @@ const applyToInteger = (func, integer) => {
   if (typeof func !== "function") {
     throw new TypeError("Invalid argument: First argument is not a function");
   }
-
   if (!Number.isInteger(integer)) {
-    throw new TypeError(
-      `Invalid argument: Second argument ${integer} is not an integer`
-    );
+    throw new TypeError(`Invalid argument: Second argument ${integer} is not an integer`);
   }
 
   return func(integer);
