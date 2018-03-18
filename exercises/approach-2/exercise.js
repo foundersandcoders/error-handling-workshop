@@ -2,11 +2,11 @@
 
 
 /*
- * 1. Write a function that returns an error if called with invalid arguments
+ * 1. Write a function that throws an error if called with invalid arguments
  *
  * Fill in the body of the function `combinedLength`, which should return
  * the combined length of two arrays if it receives correct arguments, and
- * otherwise should return an appropriate error.
+ * otherwise should throw an appropriate error.
  */
 
 /**
@@ -20,12 +20,12 @@ const combinedLength = (a, b) => {
 };
 
 /*
- * 2. Write a function that sums the numbers in an array and returns an error
+ * 2. Write a function that sums the numbers in an array and throws an error
  *    if called with invalid arguments
  *
  * Fill in the body of the function `sumArray`, which should return
  * the sum of all the elements in the input array. If it receives incorrect
- * arguments, it should return an error.
+ * arguments, it should throw an error.
  *
  * Note that all elements of the input array must be numbers.
  */
@@ -40,7 +40,7 @@ const sumArray = (xs) => {
 }
 
 /*
- * 3. Write a function that handles errors returned by (1) and (2)
+ * 3. Write a function that catches errors thrown by (1) and (2)
  *
  * Fill in the body of the function `combineAndPrint`, which should find the
  * combined length of two arrays and the total sum of all their elements.
@@ -68,23 +68,23 @@ const combineAndPrint = (a, b) => {
 /*
  * **Stretch goal -- Harder -- Optional**
  *
- * 4. Write a function that wraps another function in an error check
+ * 4. Write a function that wraps another function in try/catch
  *
- * Fill in the body of the function `wrapErrorCheck`, which takes a function `fn1`
+ * Fill in the body of the function `wrapTryCatch`, which takes a function `fn1`
  * as an argument and returns another function `fn2` which wraps the first in
- * a check for any returned errors.
+ * a try/catch statement.
  *
- * `fn2` should behave exactly like `fn1` except in the case where `fn1` returns an
+ * `fn2` should behave exactly like `fn1` except in the case where `fn1` throws an
  * error, in which case `fn2` should simply return `undefined`
  */
 
 /**
- * Wraps given function in error check
+ * Wraps given function in try/catch statement
  * @param  {Function} fn Function to wrap
  * @return {Function}    Wrapped function
  */
-const wrapErrorCheck = (fn) => (...args) => {
-  return -1; // Delete this line and write your code below
+const wrapTryCatch = (fn) => (...args) => {
+  throw new Error('Delete this line and write your code below');
   // CODE HERE
 };
 
@@ -93,5 +93,5 @@ module.exports = {
   combinedLength,
   sumArray,
   combineAndPrint,
-  wrapErrorCheck,
+  wrapTryCatch,
 };
