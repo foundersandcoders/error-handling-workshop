@@ -29,3 +29,6 @@ const validate = (filename, contents) => {
 
   }
 }
+
+
+module.exports = validate;

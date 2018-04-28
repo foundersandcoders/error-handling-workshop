@@ -5,26 +5,18 @@ const shot = require('shot');
 const router = require('../src/router.js');
 
 
-tape('Acceptance Test | Invalid method', (t) => {
-  shot.inject(
-    router,
-    { method: 'GET', url: '/' },
-    (res) => {
-      t.equal(res.statusCode, 405, 'HTTP 405 :: Method Not Allowed');
-      t.end();
-    }
-  );
+tape('Acceptance Test | Invalid method', async (t) => {
+  const res = await shot.inject(router, { method: 'GET', url: '/' });
+
+  t.equal(res.statusCode, 405, 'HTTP 405 :: Method Not Allowed');
+  t.end();
 });
 
-tape('Acceptance Test | Invalid route', (t) => {
-  shot.inject(
-    router,
-    { method: 'POST', url: '/' },
-    (res) => {
-      t.equal(res.statusCode, 404, 'HTTP 404 :: Not Found');
-      t.end();
-    }
-  );
+tape('Acceptance Test | Invalid route', async (t) => {
+  const res = await shot.inject(router, { method: 'POST', url: '/' });
+
+  t.equal(res.statusCode, 404, 'HTTP 404 :: Not Found');
+  t.end();
 });
 
 const fixtures = [
@@ -170,10 +162,10 @@ const fixtures = [
 ];
 
 fixtures.forEach(({ name, payload, assertStatusCode }) => {
-  tape(`Acceptance | ${name}`, (t) => {
-    shot.inject(router, { method: 'POST', url: '/submit', payload }, (res) => {
-      t.equal(res.statusCode, assertStatusCode, `HTTP ${assertStatusCode} | ${res.payload}`);
-      t.end();
-    });
+  tape(`Acceptance | ${name}`, async (t) => {
+    const res = await shot.inject(router, { method: 'POST', url: '/submit', payload });
+
+    t.equal(res.statusCode, assertStatusCode, `HTTP ${assertStatusCode} | ${res.payload}`);
+    t.end();
   });
 });
