@@ -15,9 +15,9 @@ Inspired by [@rjmk](https://github.com/rjmk) and his [error handling talk](https
 3. [Kinds of Errors](#kinds-of-errors)
 4. [Approaches](#approaches)
    1. [General principles](#general-principles)
-   2. [Approach 1: Throwing and Catching Errors](#approach-1-throwing-and-catching-errors)
-   3. [Approach 2: Returning Errors to the Caller](#approach-2-returning-errors-to-the-caller)
-   4. [Approach 3: Error-First Callbacks](#approach-3-error-first-callbacks)
+   2. [Approach 1: Error-First Callbacks ](#approach-1-error-first-callbacks)
+   3. [Approach 2: Throwing and Catching Errors ](#approach-2-throwing-and-catching-errors)
+   4. [Approach 3: Returning Errors to the Caller](#approach-3-returning-errors-to-the-caller)
 5. [Notes](#notes)
 6. [External Resources](#external-resources)
 
