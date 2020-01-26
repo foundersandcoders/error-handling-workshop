@@ -12,7 +12,6 @@ tape('Exercise :: Approach 1 :: Error-First Callbacks', (test) => {
     test.test('combinedLength :: valid arguments', (t) => {
       t.plan(8);
       combinedLength([], [], (err, res) => {
-        console.log(err, res);
         t.notOk(err, 'Should be no error, so first argument passed to callback should be falsy');
         t.equal(res, 0, 'Combined length of [] and [] should be 0');
       });
